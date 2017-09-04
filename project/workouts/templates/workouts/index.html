@@ -5,12 +5,12 @@
         <p class="text-center"><a href="{{url_for('users.show', id=user.id)}}">Home</a></p>
 
     {% for workout in user.workouts %}
-    <h2>Date: {{workout.date}}</h2>
+    <h2>Date: {{workout.date.strftime("%A, %d %b %Y")}}</h2>
     <h3>Location: {{workout.location}}</h3>
     <h4>Length: {{workout.length}} minutes</h4>
     <p>Comment: {{workout.comment}}</p>
     <p>
-        <a href="{{url_for('workouts.show', user_id=user.id, wo_id=workout.id)}}">See details for {{workout.date}}</a> |
+        <a href="{{url_for('workouts.show', user_id=user.id, wo_id=workout.id)}}">See details for {{workout.date.strftime("%A, %d %b %Y")}}</a> |
         <a href="{{url_for('workouts.edit', user_id=user.id, wo_id=workout.id)}}">Edit workout</a>
     </p>
     {% endfor %}
