@@ -44,7 +44,7 @@ def index(user_id):
 @ensure_correct_user
 def edit(user_id, wo_id):
     found_workout = Workout.query.get_or_404(wo_id)
-    form = WorkoutForm(obj=found_workout)
+    form = EditWorkoutForm(obj=found_workout)
     return render_template('workouts/edit.html', form=form, workout=found_workout)
 
 
@@ -83,5 +83,5 @@ def show(user_id, wo_id):
         else:
             return render_template(url_for('workouts/edit.html', form=form, workout=found_workout))
 
-    return render_template('workouts/show.html', workout=found_workout)
+    return render_template('workouts/show.html', workout=found_workout, user_id=user_id)
 

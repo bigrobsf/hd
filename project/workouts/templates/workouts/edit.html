@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1 class="text-center">Update Workout</h1>
-    <p class="text-center"><a href="{{url_for('users.show', id=user.id)}}">Home</a></p>
+    <p class="text-center"><a href="{{url_for('users.show', id=workout.user_id)}}">Home</a></p>
     <div class="container">
         <p>
             <a href="{{url_for('workouts.index', user_id=workout.user_id)}}">List Workouts</a> 

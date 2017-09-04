@@ -40,17 +40,17 @@ class Workout(db.Model):
     __tablename__ = 'workouts'
 
     id = db.Column(db.Integer, primary_key=True)
-    location = db.Column(db.String(30))
     date = db.Column(db.DateTime)
+    location = db.Column(db.String(30))   
     length = db.Column(db.Integer)
     comment = db.Column(db.String(50))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     activities = db.relationship('Activity', cascade="all, delete-orphan", backref='workout', 
                                 lazy='dynamic')
 
-    def __init__(self, location, date, length, comment, user_id):
-        self.location = location
+    def __init__(self, date, location, length, comment, user_id):
         self.date = date
+        self.location = location
         self.length = length
         self.comment = comment
         self.user_id = user_id
