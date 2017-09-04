@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1 class="text-center">New Workout</h1>
+    <p class="text-center"><a href="{{url_for('users.show', id=user.id)}}">Home</a></p>
+    <div class="container">
+        <form action="{{url_for('workouts.index', user_id=user_id)}}" method="POST">
+
+            {{ form.csrf_token }}
+      <p>
+      {{ form.location(placeholder="location") }}
+      <span>
+        {% if form.location.errors %}
+          {% for error in form.location.errors %}
+            {{ error }}
+          {% endfor %}
+        {% endif %}
+      </span>
+    </p>
+    <p></p>
+    <p>
+      {{ form.comment(placeholder="comment") }}
+      <span>
+        {% if form.comment.errors %}
+          {% for error in form.comment.errors %}
+            {{ error }}
+          {% endfor %}
+        {% endif %}
+      </span>
+    </p>
+  <button class="btn btn-success" type="submit">Start Workout</button>
+</form>
+    </div>
+{% endblock %}

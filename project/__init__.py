@@ -12,6 +12,7 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost/hd'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
@@ -21,13 +22,11 @@ db = SQLAlchemy(app)
 from project.users.views import users_blueprint
 from project.workouts.views import workouts_blueprint
 from project.exercises.views import exercises_blueprint
-from project.tags.views import tags_blueprint
 
 # register blueprints with the application
 app.register_blueprint(users_blueprint, url_prefix='/users')
 app.register_blueprint(workouts_blueprint, url_prefix='/users/<int:user_id>/workouts')
-app.register_blueprint(exercises_blueprint, url_prefix='/users/<int:user_id>/workouts/<int:workout_id>/exercises')
-app.register_blueprint(tags_blueprint, url_prefix='/tags')
+app.register_blueprint(exercises_blueprint, url_prefix='/exercises')
 
 # redirect on attempt to access a private route
 login_manager.login_view = 'users.login'

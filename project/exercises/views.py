@@ -1,5 +1,5 @@
 from flask import redirect, request, render_template, Blueprint, url_for, flash
-from project.models import User, Exercise, Tag
+from project.models import Exercise
 from project.messages.forms import ExerciseForm, DeleteForm
 from project import db
 from project.decorators import ensure_correct_user

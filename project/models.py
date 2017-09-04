@@ -35,12 +35,6 @@ class User(db.Model, UserMixin):
         return False
 
 
-exercise_tag_table = db.Table('exercise_tags',
-    db.Column('exercise_id', db.Integer, db.ForeignKey('exercises.id')),
-    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'))
-)
-
-
 class Workout(db.Model):
 
     __tablename__ = 'workouts'
@@ -51,7 +45,7 @@ class Workout(db.Model):
     length = db.Column(db.Integer)
     comment = db.Column(db.String(50))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    exercises = db.relationship('Exercise', cascade="all, delete-orphan", backref='workout', 
+    activities = db.relationship('Activity', cascade="all, delete-orphan", backref='workout', 
                                 lazy='dynamic')
 
     def __init__(self, location, date, length, comment, user_id):
@@ -66,35 +60,36 @@ class Workout(db.Model):
                                                                 self.length, self.comment)
 
 
+class Activity(db.Model):
+
+    __tablename__ = 'activities'
+
+    id = db.Column(db.Integer, primary_key=True)
+    reps = db.Column(db.Integer)
+    weight = db.Column(db.Integer)
+    comment = db.Column(db.String(50))
+    workout_id = db.Column(db.Integer, db.ForeignKey('workouts.id'))
+    exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'))
+
+    def __init__(self, reps, weight, comment, workout_id, exercise_id):
+        self.reps = reps
+        self.weight = weight
+        self.comment = comment
+        self.workout_id = workout_id
+        self.exercise_id = exercise_id
+
+    def __repr__(self):
+        return "Exercise id#{} with {} reps at {} pounds. {}.".format(self.exercise.name, self.reps, 
+                                                          self.weight, self.comment)
+
 class Exercise(db.Model):
 
     __tablename__ = 'exercises'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
-    reps = db.Column(db.Integer)
-    weight = db.Column(db.Integer)
-    comment = db.Column(db.String(50))
-    workout_id = db.Column(db.Integer, db.ForeignKey('workouts.id'))
-    tags = db.relationship('Tag', secondary=exercise_tag_table, backref=db.backref('exercises'))
-
-    def __init__(self, name, reps, weight, comment, workout_id):
-        self.name = name
-        self.reps = reps
-        self.weight = weight
-        self.comment = comment
-        self.workout_id = workout_id
-
-    def __repr__(self):
-        return "{} with {} reps at {} pounds. {}.".format(self.name, self.reps, 
-                                                          self.weight, self.comment)
-
-class Tag(db.Model):
-
-    __tablename__ = 'tags'
-
-    id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.Text)
-
-    def __init__(self, text):
-        self.text = text
+    activities = db.relationship('Activity', cascade="all, delete-orphan", backref='exercise', 
+                                lazy='dynamic')
+    
+    def __init__(self, name):
+        self.name = name   
