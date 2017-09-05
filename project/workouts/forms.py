@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, validators, DateField, DecimalField
-from project.models import Workout
+from wtforms import StringField, validators, DateField, DecimalField, FormField
+from project.models import Workout, Activity, Exercise
+from project.activities.form import ActivityForm
 
 
 class WorkoutForm(FlaskForm):
@@ -11,6 +12,7 @@ class EditWorkoutForm(FlaskForm):
     location = StringField('Location', [validators.Length(min=1, max=30)])
     length = DecimalField('Workout Length', [validators.NumberRange(min=1, max=60)])
     comment = StringField('Comment', [validators.Length(max=50)])
+    activity = [FormField(ActivityForm, e.name) for e in Exercise.query.all()]
 
 class DeleteForm(FlaskForm):
     pass
