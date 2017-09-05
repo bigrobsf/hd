@@ -7,7 +7,7 @@
 
             {{ form.csrf_token }}
       <p>
-      {{ form.location(placeholder="location") }}
+      {{ form.location(autofocus=true, placeholder="location") }}
       <span>
         {% if form.location.errors %}
           {% for error in form.location.errors %}

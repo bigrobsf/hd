@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="text-center">Exercise Listing</h1>
+    <p class="text-center"><a href="{{url_for('users.index')}}">Home</a></p>
+
+    <div class="container">
+        {% for exercise in exercises %}
+    <p>
+        <strong><a href="{{url_for('exercises.show', ex_id=exercise.id)}}">{{exercise.name}}</a></strong> | <a href="{{url_for('exercises.edit', ex_id=exercise.id)}}">Edit this exercise</a>
+    </p>
+{% endfor %}
+    <p><a href="{{url_for('exercises.new')}}">Add new exercise</a></p>
+
+    </div>
+{% endblock %}

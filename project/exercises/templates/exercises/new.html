@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="text-center">New Exercise</h1>
+    <p class="text-center"><a href="{{url_for('users.index')}}">Home</a> | 
+    <a href="{{url_for('exercises.index')}}">Exercises</a></p>
+    <div class="container">
+        <form method="POST" action="{{url_for('exercises.index')}}">
+            {{ form.csrf_token }}
+            <p>
+                {{form.name.label}}
+                {{form.name(autofocus=true)}}
+            </p>
+
+            <button type="submit" class="btn btn-success">Save</button>
+        </form>
+</div>
+{% endblock %}

@@ -8,7 +8,7 @@
   <form method="POST" action="{{url_for('users.login')}}">
     {{ form.csrf_token }}
     <p>
-      {{ form.username(placeholder="username") }}
+      {{ form.username(autofocus=true, placeholder="username") }}
       <span>
         {% if form.username.errors %}
           {% for error in form.username.errors %}
