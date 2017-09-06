@@ -2,7 +2,7 @@ from flask import redirect, request, render_template, Blueprint, url_for, flash
 from project.models import Exercise
 from project.exercises.forms import ExerciseForm, DeleteForm
 from project import db
-from project.decorators import ensure_correct_user
+from project.decorators import ensure_correct_user, ensure_admin_user
 from flask_login import login_required
 
 # exercises_blueprint to register in __init__.py
@@ -26,11 +26,12 @@ def index():
         else:
             return render_template('exercises/new.html', form=form)
     
-    return render_template('exercises/index.html', exercises=Exercise.query.all())
+    return render_template('exercises/index.html', exercises=Exercise.query.order_by(Exercise.id).all())
 
 
 @exercises_blueprint.route('/<int:ex_id>/edit')
 @login_required
+@ensure_admin_user
 def edit(ex_id):
     found_exercise = Exercise.query.get_or_404(ex_id)
     form = ExerciseForm(obj=found_exercise)
@@ -39,6 +40,7 @@ def edit(ex_id):
 
 @exercises_blueprint.route('/new')
 @login_required
+@ensure_admin_user
 def new():
     form = ExerciseForm(request.form)
     return render_template('exercises/new.html', form=form)

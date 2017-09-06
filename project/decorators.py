@@ -29,8 +29,8 @@ def ensure_admin_user(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
         admin_user = User.query.get(current_user.id)
-        if admin_user.admin == False:
-            flash("Not Authorized")
+        if not admin_user.admin:
+            flash("Only admin can modify exercises")
             return redirect(url_for('users.index',id=session.get('user_id')))
         return fn(*args, **kwargs)
     return wrapper
