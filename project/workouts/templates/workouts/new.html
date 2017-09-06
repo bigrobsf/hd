@@ -7,7 +7,8 @@
 
             {{ form.csrf_token }}
       <p>
-      {{ form.location(autofocus=true, placeholder="location") }}
+      {{ form.location.label }}
+      {{ form.location(autofocus=true) }}
       <span>
         {% if form.location.errors %}
           {% for error in form.location.errors %}
@@ -18,7 +19,8 @@
     </p>
     <p></p>
     <p>
-      {{ form.comment(placeholder="comment") }}
+      {{ form.comment.label }}
+      {{ form.comment }}
       <span>
         {% if form.comment.errors %}
           {% for error in form.comment.errors %}
@@ -30,9 +32,12 @@
     {% for exercise in exercises %}
     <fieldset>
     <legend>{{exercise.name}}</legend>
-       <input type="number" name="exercises[reps][{{exercise.id}}]">
-       <input type="number" name="exercises[weight][{{exercise.id}}]">
-       <input type="text" name="exercises[comment][{{exercise.id}}]">
+      <label># of reps
+       <input type="number" name="exercises[reps][{{exercise.id}}]"></label>
+      <label>weight
+       <input type="number" name="exercises[weight][{{exercise.id}}]"></label>
+      <label>comment
+       <input type="text" name="exercises[comment][{{exercise.id}}]"></label>
      </fieldset>
     {% endfor %}
   <button class="btn btn-success" type="submit">Save</button>

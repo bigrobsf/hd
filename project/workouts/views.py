@@ -17,35 +17,38 @@ workouts_blueprint = Blueprint(
 @workouts_blueprint.route('/', methods=['GET', 'POST'])
 @login_required
 def index(user_id):
-    if request.method == 'POST':    
+    if request.method == 'POST':
         form = WorkoutForm(request.form)
         if form.validate():
-            activities_to_add = []
             date = datetime.datetime.today()
             location = request.form.get('location')
             length = 30
             comment = request.form.get('comment')
+
             new_workout = Workout(date, location, length, comment, user_id)
             db.session.add(new_workout)
+
+            activities_to_add = []
+
             for exercise in Exercise.query.all():
-                reps = request.form.get('exercises[reps][{}]'.format(exercise.id))
-                weight = request.form.get('exercises[weight][{}]'.format(exercise.id))
+                reps = request.form.get('exercises[reps][{}]'.format(exercise.id)) or 0
+                weight = request.form.get('exercises[weight][{}]'.format(exercise.id)) or 0
                 comment = request.form.get('exercises[comment][{}]'.format(exercise.id))
                 new_activity = Activity(reps, weight, comment, new_workout.id, exercise.id)
                 activities_to_add.append(new_activity)
             db.session.add_all(activities_to_add)
-            db.session.commit()
 
-            flash('New workout created.')
+            db.session.commit()
+            flash('Workout saved.')
 
             return redirect(url_for('workouts.index', user_id=user_id))
         else:
             return render_template('workouts/new.html', form=form, user_id=user_id)
-    else:  
+    else:
         user = User.query.get(user_id)
         workouts = user.workouts.all()
 
-        return render_template('workouts/index.html', user=user, workouts=workouts)    
+        return render_template('workouts/index.html', user=user, workouts=workouts)
 
 
 @workouts_blueprint.route('/<int:wo_id>/edit')
@@ -77,14 +80,14 @@ def show(user_id, wo_id):
             found_activities = []
 
             found_workout.location = request.form.get('location')
-            found_workout.length = int(request.form.get('length'))
+            found_workout.length = int(float(request.form.get('length'))) or 30
             found_workout.comment = request.form.get('comment')
 
             db.session.add(found_workout)
 
             for found_activity in found_workout.activities:
-                found_activity.reps = request.form.get('exercises[reps][{}]'.format(found_activity.exercise_id))
-                found_activity.weight = request.form.get('exercises[weight][{}]'.format(found_activity.exercise_id))
+                found_activity.reps = request.form.get('exercises[reps][{}]'.format(found_activity.exercise_id)) or 0
+                found_activity.weight = request.form.get('exercises[weight][{}]'.format(found_activity.exercise_id)) or 0
                 found_activity.comment = request.form.get('exercises[comment][{}]'.format(found_activity.exercise_id))
                 found_activities.append(found_activity)
             db.session.add_all(found_activities)
@@ -92,7 +95,7 @@ def show(user_id, wo_id):
             db.session.commit()
             return redirect(url_for('workouts.index', user_id=user_id))
         else:
-            return render_template(url_for('workouts/edit.html', form=form, workout=found_workout))
+            return render_template('workouts/edit.html', form=form, workout=found_workout)
 
     if request.method == b'DELETE':
         form = DeleteForm(request.form)
@@ -101,7 +104,6 @@ def show(user_id, wo_id):
             db.session.commit()
             return redirect(url_for('workouts.index', user_id=user_id))
         else:
-            return render_template(url_for('workouts/edit.html', form=form, workout=found_workout))
+            return render_template('workouts/edit.html', form=form, workout=found_workout)
 
     return render_template('workouts/show.html', workout=found_workout, user_id=user_id)
-
