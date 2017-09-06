@@ -13,11 +13,6 @@ workouts_blueprint = Blueprint(
     template_folder='templates'
 )
 
-        # self.reps = reps
-        # self.weight = weight
-        # self.comment = comment
-        # self.workout_id = workout_id
-        # self.exercise_id = exercise_id
 
 @workouts_blueprint.route('/', methods=['GET', 'POST'])
 @login_required
@@ -25,7 +20,7 @@ def index(user_id):
     if request.method == 'POST':    
         form = WorkoutForm(request.form)
         if form.validate():
-            activites_to_add = []
+            activities_to_add = []
             date = datetime.datetime.today()
             location = request.form.get('location')
             length = 30
@@ -37,8 +32,8 @@ def index(user_id):
                 weight = request.form.get('exercises[weight][{}]'.format(exercise.id))
                 comment = request.form.get('exercises[comment][{}]'.format(exercise.id))
                 new_activity = Activity(reps, weight, comment, new_workout.id, exercise.id)
-                activites_to_add.append(new_activity)
-            db.session.add_all(activites_to_add)
+                activities_to_add.append(new_activity)
+            db.session.add_all(activities_to_add)
             db.session.commit()
 
             flash('New workout created.')

@@ -43,6 +43,15 @@
               </span>
             </p>
 
+          {% for activity in workout.activities %}
+          <fieldset>
+          <legend>{{activity.exercise.name}}</legend>
+             <input type="number" name="exercises[reps][{{activity.exercise_id}}]" value="{{activity.reps}}">
+             <input type="number" name="exercises[weight][{{activity.exercise_id}}]" value="{{activity.weight}}">
+             <input type="text" name="exercises[comment][{{activity.exercise_id}}]" value="{{activity.comment}}">
+           </fieldset>
+          {% endfor %}
+
           <button type="submit" class="btn btn-primary">Update</button>
       </form>
       <br>

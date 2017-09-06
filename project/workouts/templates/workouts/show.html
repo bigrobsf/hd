@@ -6,7 +6,15 @@
 
         <h3>Location: {{workout.location}}</h3>
         <h4>Length: {{workout.length}} minutes</h4>
-        <p>Comment: {{workout.comment}}</p>
+        <h5>Comment: {{workout.comment}}</h5>
+
+        {% for activity in workout.activities %}
+
+        <h4>{{activity.exercise.name}}</h4>
+        <p>{{activity.reps}} reps @ {{activity.weight}} lbs.</p>
+        <p>{{activity.comment}}</p>
+
+        {% endfor %}        
         
         <p>
             <a href="{{url_for('workouts.new', user_id=workout.user_id)}}">Add a workout</a> |

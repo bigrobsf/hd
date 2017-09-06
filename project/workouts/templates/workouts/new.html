@@ -28,10 +28,12 @@
       </span>
     </p>
     {% for exercise in exercises %}
-    <p>{{exercise.name}}</p>
-     <input type="number" name="exercises[reps][{{exercise.id}}]">
-     <input type="number" name="exercises[weight][{{exercise.id}}]">
-     <input type="text" name="exercises[comment][{{exercise.id}}]">
+    <fieldset>
+    <legend>{{exercise.name}}</legend>
+       <input type="number" name="exercises[reps][{{exercise.id}}]">
+       <input type="number" name="exercises[weight][{{exercise.id}}]">
+       <input type="text" name="exercises[comment][{{exercise.id}}]">
+     </fieldset>
     {% endfor %}
   <button class="btn btn-success" type="submit">Save</button>
 </form>
