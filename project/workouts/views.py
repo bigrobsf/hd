@@ -74,11 +74,21 @@ def show(user_id, wo_id):
     if request.method == b'PATCH':
         form = EditWorkoutForm(request.form)
         if form.validate():
+            found_activities = []
+
             found_workout.location = request.form.get('location')
             found_workout.length = int(request.form.get('length'))
             found_workout.comment = request.form.get('comment')
 
             db.session.add(found_workout)
+
+            for found_activity in found_workout.activities:
+                found_activity.reps = request.form.get('exercises[reps][{}]'.format(found_activity.exercise_id))
+                found_activity.weight = request.form.get('exercises[weight][{}]'.format(found_activity.exercise_id))
+                found_activity.comment = request.form.get('exercises[comment][{}]'.format(found_activity.exercise_id))
+                found_activities.append(found_activity)
+            db.session.add_all(found_activities)
+
             db.session.commit()
             return redirect(url_for('workouts.index', user_id=user_id))
         else:
