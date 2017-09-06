@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1 class="text-center">Workout Listing</h1>
+    <h3 class="text-center">Workout Listing</h3>
     <div class="container">
-        <p class="text-center"><a href="{{url_for('users.show', id=user.id)}}">Home</a> | 
+        <p class="text-center"><a href="{{url_for('users.show', id=user.id)}}">Home</a> | <a href="{{url_for('workouts.new', user_id=user.id)}}">New Workout</a> |
         <a href="{{url_for('exercises.index')}}">Exercises</a></p>
 
     {% for workout in user.workouts %}
-    <h2>Date: {{workout.date.strftime("%A, %d %b %Y")}}</h2>
-    <h3>Location: {{workout.location}}</h3>
-    <h4>Length: {{workout.length}} minutes</h4>
+    <h3>{{workout.date.strftime("%A, %d %b %Y")}}</h3>
+    <h4>{{workout.location}}, {{workout.length}} minutes</h4>
     <p>Comment: {{workout.comment}}</p>
     <p>
         <a href="{{url_for('workouts.show', user_id=user.id, wo_id=workout.id)}}">See details for {{workout.date.strftime("%A, %d %b %Y")}}</a> |
@@ -16,6 +15,5 @@
     </p>
     {% endfor %}
 
-        <p><a href="{{url_for('workouts.new', user_id=user.id)}}">New Workout</a></p>
     </div>
 {% endblock %}

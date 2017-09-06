@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1 class="text-center">New Workout</h1>
+    <h3 class="text-center">New Workout</h3>
     <p class="text-center"><a href="{{url_for('users.show', id=user_id)}}">Home</a></p>
     <div class="container">
         <form action="{{url_for('workouts.index', user_id=user_id)}}" method="POST">
 
             {{ form.csrf_token }}
+  <div class="row">
+  <div class="col-sm-4 col-sm-offset-4">
       <p>
       {{ form.location.label }}
-      {{ form.location(autofocus=true) }}
+      {{ form.location(autofocus=true, class="form-control") }}
       <span>
         {% if form.location.errors %}
           {% for error in form.location.errors %}
@@ -20,7 +22,7 @@
     <p></p>
     <p>
       {{ form.comment.label }}
-      {{ form.comment }}
+      {{ form.comment(class="form-control") }}
       <span>
         {% if form.comment.errors %}
           {% for error in form.comment.errors %}
@@ -29,17 +31,25 @@
         {% endif %}
       </span>
     </p>
+    </div></div>
+
+  <div class="row">
+  <div class="col-sm-12">
     {% for exercise in exercises %}
+    <div class="form-inline form-group">
     <fieldset>
     <legend>{{exercise.name}}</legend>
       <label># of reps
-       <input type="number" name="exercises[reps][{{exercise.id}}]"></label>
+       <input type="number" class="form-control" name="exercises[reps][{{exercise.id}}]"></label>
       <label>weight
-       <input type="number" name="exercises[weight][{{exercise.id}}]"></label>
+       <input type="number" class="form-control" name="exercises[weight][{{exercise.id}}]"></label>
       <label>comment
-       <input type="text" name="exercises[comment][{{exercise.id}}]"></label>
+       <input type="text" class="form-control" name="exercises[comment][{{exercise.id}}]"></label>
      </fieldset>
+     </div>
     {% endfor %}
+    </div></div>
+    <p></p>
   <button class="btn btn-success" type="submit">Save</button>
 </form>
     </div>

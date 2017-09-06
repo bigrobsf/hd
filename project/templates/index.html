@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LIFT</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body>
+    {% block content %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>LIFT</h1>
+            <p>Track your High Intensity Workout.</p>
+            <p>See your progress in charts.</p>
+            <p><a class="btn btn-primary btn-lg" href="{{url_for('users.signup')}}" role="button">Create Account</a>
+            <a class="btn btn-success btn-lg" href="{{url_for('users.login')}}" role="button">Sign In</a></p>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>

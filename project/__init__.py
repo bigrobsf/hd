@@ -40,7 +40,8 @@ def load_user(id):
 
 @app.route('/')
 def root():
-    return redirect(url_for('users.login'))
+    # return redirect(url_for('users.login'))
+    return render_template('index.html')
 
 @app.errorhandler(404)
 def page_not_found(e):

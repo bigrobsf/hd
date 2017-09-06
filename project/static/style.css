@@ -1,0 +1,22 @@
+body {
+  min-height: 100vh;
+  position: relative;
+  margin: 0;
+  margin-top: -20px;
+}
+
+header {
+  background: #dddddd;
+  height: 10vh;
+  border-bottom: 1px solid darkgray;
+}
+
+input {
+    margin-right: 5px;
+}
+
+.header-logo {
+  height: 10vh;
+  line-height: 10vh;
+  white-space: nowrap;
+}

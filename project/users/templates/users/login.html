@@ -2,13 +2,15 @@
 
 {% block content %}
 
-<h1 class="text-center">Login</h1>
+<h3 class="text-center">Login</h3>
 <p class="text-center"><a href="{{url_for('users.signup')}}">Need to sign up instead?</a></p>
 <div class="container">
+<div class="row">
+  <div class="col-sm-4 col-sm-offset-4">
   <form method="POST" action="{{url_for('users.login')}}">
     {{ form.csrf_token }}
-    <p>
-      {{ form.username(autofocus=true, placeholder="username") }}
+    <p>{{ form.username.label }}
+      {{ form.username(autofocus=true, class="form-control") }}
       <span>
         {% if form.username.errors %}
           {% for error in form.username.errors %}
@@ -18,8 +20,8 @@
       </span>
     </p>
     <p></p>
-    <p>
-      {{ form.password(placeholder="password") }}
+    <p>{{ form.password.label }}
+      {{ form.password(class="form-control") }}
       <span>
         {% if form.password.errors %}
           {% for error in form.password.errors %}
@@ -28,7 +30,9 @@
         {% endif %}
       </span>
     </p>
-    <button type="submit" class="btn btn-default">Login!</button>
+    <button type="submit" class="btn btn-primary">Login</button>
   </form>
+  </div>
+  </div>
 </div>
 {% endblock %}

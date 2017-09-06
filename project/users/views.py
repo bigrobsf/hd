@@ -17,8 +17,10 @@ users_blueprint = Blueprint(
 @login_required
 @users_blueprint.route('/')
 def index():
-    return render_template('users/index.html', users=User.query.order_by(User.username).all())
-
+    found_user = User.query.get_or_404(current_user.id)
+    if found_user.admin:
+        return render_template('users/index.html', users=User.query.order_by(User.username).all())
+    return render_template('users/show.html', user=found_user)
 
 @users_blueprint.route('/signup', methods=['GET', 'POST'])
 @prevent_login_signup
