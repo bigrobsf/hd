@@ -3,19 +3,20 @@
     <h3 class="text-center">{{ user.username }}</h3>
     <p class="text-center"><a href="{{url_for('users.logout')}}">Logout</a></p>
     <div class="container">
-        <p>First Name: {{ user.first_name }}</p>
-        <p>Last Name: {{ user.last_name }}</p>
+        <h4>{{ user.first_name }} {{ user.last_name }}</h4>
 
         <p>
             <a href="{{url_for('workouts.new', user_id=user.id)}}">Start Workout</a> |
-            <a href="{{url_for('workouts.index', user_id=user.id)}}">List Workouts</a> |
-
-            <a href="../../reports/export/{{user.id}}">Export to File</a>
+            <a href="{{url_for('workouts.index', user_id=user.id)}}">List Workouts</a> | <a href="../../reports/export/{{user.id}}">Export to File</a>
         </p>
 
         <p>
             <a href="{{url_for('users.edit', id=user.id)}}">Edit Account</a> |
             <a href="{{url_for('users.index')}}">List All Users</a>
         </p>
+
+        <button type="button" id="chart" class="btn btn-primary">Chart</button>
+        <p></p>
+        <svg width="760" height="760"></svg>
     </div>
 {% endblock %}
