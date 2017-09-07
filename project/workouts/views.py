@@ -4,6 +4,7 @@ from project.workouts.forms import WorkoutForm, EditWorkoutForm, DeleteForm
 from project import db
 from project.decorators import ensure_correct_user
 from flask_login import login_required
+from sqlalchemy import desc
 import datetime
 
 # workouts_blueprint to register in __init__.py
@@ -46,7 +47,7 @@ def index(user_id):
             return render_template('workouts/new.html', form=form, user_id=user_id)
     else:
         user = User.query.get(user_id)
-        workouts = user.workouts.all()
+        workouts = user.workouts.order_by(desc(Workout.date)).all()
 
         return render_template('workouts/index.html', user=user, workouts=workouts)
 
