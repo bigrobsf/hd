@@ -9,11 +9,13 @@ $(function() {
 
   $('#chart').on('click', () => {
 
+    $('#chart').remove();
+
     $.getJSON('/reports/1/graph').then(data => {
       console.log(data);
 
       var svg = d3.select("svg"),
-          margin = {top: 20, right: 40, bottom: 30, left: 20},
+          margin = {top: 20, right: 40, bottom: 70, left: 20},
           width = +svg.attr("width") - margin.left - margin.right,
           height = +svg.attr("height") - margin.top - margin.bottom;
 
@@ -37,7 +39,12 @@ $(function() {
         g.append("g")
             .attr("class", "axis axis--x")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+                .style("text-anchor", "end")
+                .attr("dx", "-.8em")
+                .attr("dy", ".15em")
+                .attr("transform", "rotate(-65)");
 
         g.append("g")
             .attr("class", "axis--y")

@@ -11,12 +11,22 @@
         <h3>{{workout.location}}</h3>
         <h4>Length: {{workout.length}} minutes</h4>
         <h5>Comment: {{workout.comment}}</h5>
-
+        <table class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Exercise</th><th>Reps</th><th>Weight</th><th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
         {% for activity in workout.activities %}
-
-        <h4>{{activity.exercise.name}}: {{activity.reps}} reps @ {{activity.weight}} lbs.</h4>
-        <p>{{activity.comment}}</p>
-
-        {% endfor %}        
+                <tr>
+                    <td>{{activity.exercise.name}}</td>
+                    <td>{{activity.reps}}</td>
+                    <td>{{activity.weight}}</td>
+                    <td>{{activity.comment}}</td>
+                </tr>
+        {% endfor %}
+        </tbody>
+        </table>        
     </div>
 {% endblock %}

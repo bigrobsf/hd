@@ -5,6 +5,7 @@ from project import db
 from project.decorators import ensure_correct_user
 from flask_login import login_required
 from sqlalchemy import desc
+from sqlalchemy.exc import DataError
 import datetime
 
 # workouts_blueprint to register in __init__.py
@@ -35,14 +36,19 @@ def index(user_id):
                 reps = request.form.get('exercises[reps][{}]'.format(exercise.id)) or 0
                 weight = request.form.get('exercises[weight][{}]'.format(exercise.id)) or 0
                 comment = request.form.get('exercises[comment][{}]'.format(exercise.id))
+                if len(comment) > 50:
+                    comment = comment[0:50]
                 new_activity = Activity(reps, weight, comment, new_workout.id, exercise.id)
                 activities_to_add.append(new_activity)
             db.session.add_all(activities_to_add)
 
-            db.session.commit()
-            flash('Workout saved.')
-
-            return redirect(url_for('workouts.index', user_id=user_id))
+            try:
+                db.session.commit()
+                flash('Workout saved.')
+                return redirect(url_for('workouts.index', user_id=user_id))
+            except DataError as err:
+                flash('Invalid data entered.')
+                return render_template('workouts/new.html', form=form, user_id=user_id)
         else:
             return render_template('workouts/new.html', form=form, user_id=user_id)
     else:
@@ -89,12 +95,19 @@ def show(user_id, wo_id):
             for found_activity in found_workout.activities:
                 found_activity.reps = request.form.get('exercises[reps][{}]'.format(found_activity.exercise_id)) or 0
                 found_activity.weight = request.form.get('exercises[weight][{}]'.format(found_activity.exercise_id)) or 0
-                found_activity.comment = request.form.get('exercises[comment][{}]'.format(found_activity.exercise_id))
+                comment = request.form.get('exercises[comment][{}]'.format(found_activity.exercise_id))
+                if len(comment) > 50:
+                    comment = comment[0:50]
+                found_activity.comment = comment
                 found_activities.append(found_activity)
             db.session.add_all(found_activities)
 
-            db.session.commit()
-            return redirect(url_for('workouts.index', user_id=user_id))
+            try:
+                db.session.commit()
+                return redirect(url_for('workouts.index', user_id=user_id))
+            except DataError as err:
+                flash('Invalid data entered.')
+                return render_template('workouts/edit.html', form=form, workout=found_workout)
         else:
             return render_template('workouts/edit.html', form=form, workout=found_workout)
 

@@ -6,7 +6,7 @@ body {
 }
 
 header {
-  background: #dddddd;
+  background: #b0bec5;
   height: 10vh;
   border-bottom: 1px solid darkgray;
 }
@@ -19,4 +19,31 @@ input {
   height: 10vh;
   line-height: 10vh;
   white-space: nowrap;
+}
+
+.header-logo, #start-logo {
+  color: brown;
+}
+
+.blurb p {
+  color: steelblue;
+  font-weight: 400;
+}
+
+.blurb {
+  margin: 5vh 0 7vh 0;
+}
+
+.bar{
+  fill: steelblue;
+}
+
+.bar:hover{
+  fill: brown;
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
