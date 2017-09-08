@@ -14,9 +14,14 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost/hd'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost/hd'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+
+if os.environ.get('ENV') == 'production':
+    app.config.from_object('config.ProductionConfig')
+else:
+    app.config.from_object('config.DevelopmentConfig')
 
 db = SQLAlchemy(app)
 
