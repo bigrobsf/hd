@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h3 class="text-center">Workout Listing</h3>
-    <div class="container">
-        <p class="text-center"><a href="{{url_for('users.show', id=user.id)}}">Home</a> | <a href="{{url_for('workouts.new', user_id=user.id)}}">New Workout</a> |
-        <a href="{{url_for('exercises.index')}}">Exercises</a></p>
+  <h3 class="text-center">Workout Listing</h3>
+  <div class="container">
+    <p class="text-center"><a href="{{url_for('users.show', id=user.id)}}">Home</a> |
+      <a href="{{url_for('workouts.new', user_id=user.id)}}">New Workout</a> |
+      <a href="{{url_for('exercises.index')}}">Exercises</a>
+    </p>
 
     {% for workout in workouts %}
-    <h3>{{workout.date.strftime("%A, %d %b %Y")}}</h3>
-    <h4>{{workout.location}}, {{workout.length}} minutes</h4>
-    <p>Comment: {{workout.comment}}</p>
-    <p>
-        <a href="{{url_for('workouts.show', user_id=user.id, wo_id=workout.id)}}">See details for {{workout.date.strftime("%A, %d %b %Y")}}</a> |
-        <a href="{{url_for('workouts.edit', user_id=user.id, wo_id=workout.id)}}">Edit workout</a>
-    </p>
+      <h3>{{workout.date.strftime("%A, %d %b %Y")}}</h3>
+      <h4>{{workout.location}}, {{workout.length}} minutes</h4>
+      <p>Comment: {{workout.comment}}</p>
+      <p>
+          <a href="{{url_for('workouts.show', user_id=user.id, wo_id=workout.id)}}">See details for {{workout.date.strftime("%A, %d %b %Y")}}</a> |
+          <a href="{{url_for('workouts.edit', user_id=user.id, wo_id=workout.id)}}">Edit workout</a>
+      </p>
     {% endfor %}
-
-    </div>
+  </div>
 {% endblock %}

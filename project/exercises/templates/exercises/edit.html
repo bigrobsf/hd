@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h3 class="text-center">Edit Exercise</h3>
-    <p class="text-center"><a href="{{url_for('users.index')}}">Home</a> | 
-    <a href="{{url_for('exercises.index')}}">Exercises</a></p>
-    <div class="container">
-<div class="row">
-  <div class="col-sm-4 col-sm-offset-4">
-      <form action="{{url_for('exercises.show', ex_id=exercise.id)}}?_method=PATCH" method="POST">
-         {{ form.csrf_token }}
+  <h3 class="text-center">Edit Exercise</h3>
+  <p class="text-center">
+    <a href="{{url_for('users.index')}}">Home</a> |
+    <a href="{{url_for('exercises.index')}}">Exercises</a>
+  </p>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-4">
+        <form action="{{url_for('exercises.show', ex_id=exercise.id)}}?_method=PATCH" method="POST">
+        {{ form.csrf_token }}
           {% for field in form if field.widget.input_type != 'hidden' %}
             <p>
-              {{ field.label }}
-              {{ field }}
+            {{ field.label }}
+            {{ field }}
               <span>
                 {% if field.errors %}
                   {% for error in field.errors %}
@@ -20,17 +22,16 @@
                 {% endif %}
               </span>
             </p>
-            {% endfor %}
-            <p> {{ form.tags }}</p>
+          {% endfor %}
+          <p> {{ form.tags }}</p>
           <button type="submit" class="btn btn-primary">Update</button>
-      </form>
-      <br>
-      <form action="{{url_for('exercises.show', ex_id=exercise.id)}}?_method=DELETE" method="POST">
+        </form>
+        <br>
+        <form action="{{url_for('exercises.show', ex_id=exercise.id)}}?_method=DELETE" method="POST">
         {{ form.csrf_token }}
           <button type="submit" class="btn btn-danger">Delete</button>
-
-      </form>
-      </div>
+        </form>
       </div>
     </div>
+  </div>
 {% endblock %}

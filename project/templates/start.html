@@ -1,16 +1,18 @@
 {% extends 'base.html' %}
-    {% block head %}
-    {% endblock %}
-    {% block content %}
-    <div class="jumbotron">
-        <div class="container">
-            <h1 id="start-logo">LIFT</h1>
-            <div class="blurb">
-            <p>Track your High Intensity Workout.</p>
-            <p>See your progress in charts.</p>
-            </div>
-            <p><a class="btn btn-primary btn-lg" href="{{url_for('users.signup')}}" role="button">Create Account</a>
-            <a class="btn btn-success btn-lg" href="{{url_for('users.login')}}" role="button">Sign In</a></p>
-        </div>
+  {% block head %}
+  {% endblock %}
+  {% block content %}
+  <div class="jumbotron">
+    <div class="container">
+      <h1 id="start-logo">LIFT</h1>
+      <div class="blurb">
+        <p>Track your High Intensity Workout.</p>
+        <p>See your progress in charts.</p>
+      </div>
+      <p>
+        <a class="btn btn-primary btn-lg" href="{{url_for('users.signup')}}" role="button">Create Account</a>
+        <a class="btn btn-success btn-lg" href="{{url_for('users.login')}}" role="button">Sign In</a>
+      </p>
     </div>
+  </div>
 {% endblock %}
