@@ -5,7 +5,6 @@ from flask_modus import Modus
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_required
 from sqlalchemy import text
-# from project.decorators import ensure_correct_user
 import os
 
 app = Flask(__name__)
@@ -35,6 +34,7 @@ app.register_blueprint(exercises_blueprint, url_prefix='/exercises')
 login_manager.login_view = 'users.login'
 
 from project.models import User, Workout, Activity, Exercise
+from project.decorators import ensure_correct_user
 
 # write a method with the user_loader decorator so that flask_login can find a current_user
 @login_manager.user_loader
@@ -55,7 +55,7 @@ def page_not_found(e):
 
 @app.route('/reports/<int:user_id>/graph')
 @login_required
-# @ensure_correct_user
+@ensure_correct_user
 def graph_data(user_id):
     sql = text("select w.user_id, to_char(w.date, 'YYYY-MM-DD') as date, e.name, w.length, a.reps, a.weight, (a.reps * a.weight) as product from workouts w join activities a on w.id = a.workout_id join exercises e on a.exercise_id = e.id order by w.date, e.id;")
     file_data = db.engine.execute(sql).fetchall()
@@ -77,7 +77,7 @@ def graph_data(user_id):
 
 @app.route('/reports/export/<int:user_id>')
 @login_required
-# @ensure_correct_user
+@ensure_correct_user
 def export(user_id):
     sql = text("select w.user_id, to_char(w.date, 'YYYY-MM-DD') as date, e.name, w.length, a.reps, a.weight, (a.reps * a.weight) as product from workouts w join activities a on w.id = a.workout_id join exercises e on a.exercise_id = e.id order by w.date, e.id;")
     file_data = db.engine.execute(sql)
