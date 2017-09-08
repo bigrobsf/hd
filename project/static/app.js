@@ -7,6 +7,13 @@
 
 $(function() {
 
+  var admin = $('h5.hidden').text();
+
+  if (admin === 'True') {
+    console.log('admin =', admin);
+    $('.userlist').removeClass('hidden');
+  }
+
   $('#chart').on('click', () => {
 
     $('#chart').remove();

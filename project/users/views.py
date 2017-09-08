@@ -20,7 +20,7 @@ def index():
     found_user = User.query.get_or_404(current_user.id)
     if found_user.admin:
         return render_template('users/index.html', users=User.query.order_by(User.username).all())
-    return render_template('users/show.html', user=found_user)
+    return render_template('users/show.html', user=found_user, admin=found_user)
 
 @users_blueprint.route('/signup', methods=['GET', 'POST'])
 @prevent_login_signup
@@ -79,6 +79,8 @@ def edit(id):
 @ensure_correct_or_admin_user
 def show(id):
     found_user = User.query.get_or_404(id)
+    admin_user = User.query.get(current_user.id)
+
     if request.method == b'PATCH':
         form = UpdateUserForm(request.form)
         if form.validate():
@@ -106,7 +108,7 @@ def show(id):
             return redirect(url_for('users.login'))
         return render_template('users/edit.html', form=form, user=found_user)
 
-    return render_template('users/show.html', user=found_user)
+    return render_template('users/show.html', user=found_user, admin=admin_user)
 
 
 @users_blueprint.route('/logout')
