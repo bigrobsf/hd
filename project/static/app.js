@@ -7,15 +7,15 @@
 
 $(function() {
 
+  // hides 'List all Users' link on users show template if user is not an admin
   var admin = $('h5.hidden').text();
-
   if (admin === 'True') {
     console.log('admin =', admin);
     $('.userlist').removeClass('hidden');
   }
 
+  // displays chart, removes Chart button when button is clicked
   $('#chart').on('click', () => {
-
     $('#chart').remove();
 
     var userId = $('p.hidden').text();
