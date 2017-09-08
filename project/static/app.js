@@ -11,7 +11,10 @@ $(function() {
 
     $('#chart').remove();
 
-    $.getJSON('/reports/1/graph').then(data => {
+    var userId = $('p.hidden').text();
+    console.log('userid is: ', userId);
+
+    $.getJSON(`/reports/${userId}/graph`).then(data => {
       console.log(data);
 
       var svg = d3.select("svg"),
@@ -30,6 +33,7 @@ $(function() {
 
         data.forEach(function(d) {
             d.date = d.date;
+            d.length = +d.length;
             d.sum = +d.sum;
         });
 
@@ -67,6 +71,12 @@ $(function() {
             .attr("y", function(d) { return y(d.sum); })
             .attr("width", x.bandwidth())
             .attr("height", 0)
+            .on("mousemove", showTooltip)
+            .on("touchstart", showTooltip)
+            .on("mouseout", function() {
+              d3.select(".tooltip")
+              .style("opacity", 0);
+            })
             .attr("height", function(d) { return height - y(d.sum); });
 
         svg
@@ -77,6 +87,16 @@ $(function() {
             .style("text-anchor", "middle")
             .style("font-size", "16px")
             .style("font-weight", "bold");
+
+            function showTooltip(d) {
+              d3.select(".tooltip")
+                  .style("opacity", 1)
+                  .style("top", d3.event.y + 20 + "px")
+                  .style("left", d3.event.x - 20 + "px")
+                  .html(`
+                    <p>Duration: ${d.length} minutes</p>
+                  `);
+            }
 
     });
   });

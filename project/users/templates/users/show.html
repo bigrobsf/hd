@@ -7,7 +7,8 @@
 
         <p>
             <a href="{{url_for('workouts.new', user_id=user.id)}}">Start Workout</a> |
-            <a href="{{url_for('workouts.index', user_id=user.id)}}">List Workouts</a> | <a href="../../reports/export/{{user.id}}">Export to File</a>
+            <a href="{{url_for('workouts.index', user_id=user.id)}}">List Workouts</a>
+            | <a href="../../reports/export/{{user.id}}">Export to File</a>
         </p>
 
         <p>
@@ -16,9 +17,10 @@
         </p>
 
         <button type="button" id="chart" class="btn btn-primary">Chart</button>
-        <p></p>
+        <p class="hidden">{{user.id}}</p>
       <div class="row">
         <svg class="center-block" width="480" height="480"></svg>
       </div>
     </div>
+    <div class="tooltip"></div>
 {% endblock %}

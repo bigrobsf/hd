@@ -1,5 +1,5 @@
 import csv
-from flask import Flask, render_template, redirect, url_for, jsonify
+from flask import Flask, render_template, redirect, url_for, jsonify, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_modus import Modus
 from flask_bcrypt import Bcrypt
@@ -57,20 +57,21 @@ def page_not_found(e):
 @login_required
 @ensure_correct_user
 def graph_data(user_id):
-    sql = text("select w.user_id, to_char(w.date, 'YYYY-MM-DD') as date, e.name, w.length, a.reps, a.weight, (a.reps * a.weight) as product from workouts w join activities a on w.id = a.workout_id join exercises e on a.exercise_id = e.id order by w.date, e.id;")
+    sql = text("select w.user_id, to_char(w.date, 'YYYY-MM-DD') as date, e.name, w.length, a.reps, a.weight, (a.reps * a.weight) as product from workouts w join activities a on w.id = a.workout_id join exercises e on a.exercise_id = e.id where w.user_id = {} order by w.date, e.id;".format(user_id))
     file_data = db.engine.execute(sql).fetchall()
     final_data = []
     current_date = file_data[0][1]
+    length = file_data[0][3]
     date_total = 0
     for row in file_data:
-        if row[0] == user_id:
-            if row[1] == current_date:
-                date_total += row[-1]
-            else:
-                final_data.append({'date': current_date, 'sum': date_total})
-                current_date = row[1]
-                date_total = 0
-    final_data.append({'date': current_date, 'sum': date_total})
+        if row[1] == current_date:
+            length = row[3]
+            date_total += row[-1]
+        else:
+            final_data.append({'date': current_date, 'length': length, 'sum': date_total})
+            current_date = row[1]
+            date_total = 0
+    final_data.append({'date': current_date, 'length': length, 'sum': date_total})
 
     return jsonify(final_data)
 
@@ -79,7 +80,7 @@ def graph_data(user_id):
 @login_required
 @ensure_correct_user
 def export(user_id):
-    sql = text("select w.user_id, to_char(w.date, 'YYYY-MM-DD') as date, e.name, w.length, a.reps, a.weight, (a.reps * a.weight) as product from workouts w join activities a on w.id = a.workout_id join exercises e on a.exercise_id = e.id order by w.date, e.id;")
+    sql = text("select w.user_id, to_char(w.date, 'YYYY-MM-DD') as date, e.name, w.length, a.reps, a.weight, (a.reps * a.weight) as product from workouts w join activities a on w.id = a.workout_id join exercises e on a.exercise_id = e.id where w.user_id = {} order by w.date, e.id;".format(user_id))
     file_data = db.engine.execute(sql)
     file_name = 'workouts.csv'
 
@@ -88,6 +89,5 @@ def export(user_id):
         out.writerow(['user_id', 'date', 'name', 'length', 'reps', 'weight', 'product'])
 
         for row in file_data:
-            if row.user_id == user_id:
-                out.writerow([row.user_id, row.date, row.name, row.length, row.reps, row.weight, row.product])
+            out.writerow([row.user_id, row.date, row.name, row.length, row.reps, row.weight, row.product])
     return file_name
