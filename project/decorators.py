@@ -34,3 +34,14 @@ def ensure_admin_user(fn):
             return redirect(url_for('users.index',id=session.get('user_id')))
         return fn(*args, **kwargs)
     return wrapper
+
+def ensure_correct_or_admin_user(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        admin_user = User.query.get(current_user.id)
+        correct_id = kwargs.get('user_id') or kwargs.get('id')
+        if not admin_user.admin and correct_id != current_user.id:
+            flash("Only user or admin can edit")
+            return redirect(url_for('users.index',id=session.get('user_id')))
+        return fn(*args, **kwargs)
+    return wrapper

@@ -8,7 +8,6 @@ class NewUserForm(FlaskForm):
     confirm = PasswordField('Repeat Password')
     first_name = StringField('First Name', [validators.Length(min=3)])
     last_name = StringField('Last Name', [validators.Length(min=1)])
-    admin = BooleanField('Admin?')
 
 class UpdateUserForm(FlaskForm):
     username = StringField('User Name', [validators.Length(min=3)])

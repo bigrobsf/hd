@@ -3,7 +3,7 @@ from project.models import User
 from project.users.forms import NewUserForm, UpdateUserForm, LoginForm, DeleteForm
 from sqlalchemy.exc import IntegrityError
 from project import db, bcrypt
-from project.decorators import prevent_login_signup, ensure_correct_user
+from project.decorators import prevent_login_signup, ensure_correct_user, ensure_correct_or_admin_user
 from flask_login import login_user, logout_user, login_required, current_user
 
 # users_blueprint to register in __init__.py
@@ -32,8 +32,7 @@ def signup():
             password = request.form.get('password')
             first_name = request.form.get('first_name')
             last_name = request.form.get('last_name')
-            admin = request.form.get('admin')
-
+            admin = False
             new_user = User(username, password, first_name, last_name, admin)
             db.session.add(new_user)
 
@@ -67,16 +66,17 @@ def login():
 
 @users_blueprint.route('/<int:id>/edit')
 @login_required
-@ensure_correct_user
+@ensure_correct_or_admin_user
 def edit(id):
     found_user = User.query.get_or_404(id)
+    admin_user = User.query.get(current_user.id)
     form = UpdateUserForm(obj=found_user)
-    return render_template('users/edit.html', form=form, user=found_user)
+    return render_template('users/edit.html', form=form, user=found_user, admin=admin_user)
 
 
 @users_blueprint.route('/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 @login_required
-@ensure_correct_user
+@ensure_correct_or_admin_user
 def show(id):
     found_user = User.query.get_or_404(id)
     if request.method == b'PATCH':
@@ -86,7 +86,9 @@ def show(id):
             # found_user.password = bcrypt.generate_password_hash(form.password.data).decode('UTF-8')
             found_user.first_name = request.form.get('first_name')
             found_user.last_name = request.form.get('last_name')
-            found_user.admin = request.form.get('admin')
+            admin_user = User.query.get(current_user.id)
+            if admin_user.admin:
+                found_user.admin = request.form.get('admin')
 
             db.session.add(found_user)
             db.session.commit()

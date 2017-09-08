@@ -7,15 +7,17 @@
     {{ form.csrf_token }}
       {% for field in form if field.widget.input_type != 'hidden' %}
         <p>
-          {{ field.label }}
-          {{ field }}
-          <span>
-            {% if field.errors %}
-              {% for error in field.errors %}
-                { error }}
-              {% endfor %}
-            {% endif %}
-          </span>
+          {% if field.name != 'admin' or (field.name == 'admin' and admin.admin) %}
+            {{ field.label }}
+            {{ field }}
+            <span>
+              {% if field.errors %}
+                {% for error in field.errors %}
+                  { error }}
+                {% endfor %}
+              {% endif %}
+            </span>
+          {% endif %}
         </p>
       {% endfor %}
       <button type="submit" class="btn btn-primary">Save</button>
