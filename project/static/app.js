@@ -12,10 +12,8 @@ $(function() {
     $('#chart').remove();
 
     var userId = $('p.hidden').text();
-    console.log('userid is: ', userId);
 
     $.getJSON(`/reports/${userId}/graph`).then(data => {
-      console.log(data);
 
       var svg = d3.select("svg"),
           margin = {top: 20, right: 40, bottom: 70, left: 20},
