@@ -19,6 +19,7 @@ input {
   height: 10vh;
   line-height: 10vh;
   white-space: nowrap;
+  font-size: 5vh;
 }
 
 .header-logo, #start-logo {
