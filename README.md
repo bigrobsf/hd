@@ -8,26 +8,28 @@ The app displays a chart of work done (reps x weight) for all workouts in the da
 
 ## Technologies used
 
-* Python
-* Flask
-* d3
-* JavaScript
-* jQuery
+Python  
+Flask  
+d3  
+JavaScript  
+jQuery  
 
-* Postgres
-* SQL
-* SQLAlchemy
+Postgres   
+SQL   
+SQLAlchemy   
 
-* Flask Login
-* Flask WTF
-* Flask Modus
-* Flask Bcrypt
-* Bootstrap
-* Jinja
+Flask Login  
+Flask WTF  
+Flask Modus  
+Flask Bcrypt  
+
+Bootstrap  
+Jinja
 
 ## To install and run locally
 
-```# clone this repository
+```
+# clone this repository
 
 # cd into the hd directory
 cd hd
