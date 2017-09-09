@@ -62,13 +62,16 @@
           {% endfor %}
         </div>
       </div>
-      <p></p>
-      <button type="submit" class="btn btn-primary">Update</button>
-    </form>
-    <br>
-    <form action="{{url_for('workouts.show', user_id=workout.user_id, wo_id=workout.id)}}?_method=DELETE" method="POST">
-      {{ form.csrf_token }}
-      <button type="submit" class="btn btn-danger">Delete</button>
-    </form>
+      <div class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+          <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+        <p></p>
+        <form action="{{url_for('workouts.show', user_id=workout.user_id, wo_id=workout.id)}}?_method=DELETE" method="POST">
+          {{ form.csrf_token }}
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
   </div>
 {% endblock %}

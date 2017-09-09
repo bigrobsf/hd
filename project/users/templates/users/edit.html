@@ -3,29 +3,33 @@
   <h3 class="text-center">Account Update</h3>
   <p class="text-center"><a href="{{url_for('users.index')}}">Home</a></p>
   <div class="container">
-    <form action="{{url_for('users.show', id=user.id)}}?_method=PATCH" method="POST">
-    {{ form.csrf_token }}
-      {% for field in form if field.widget.input_type != 'hidden' %}
-        <p>
-          {% if field.name != 'admin' or (field.name == 'admin' and admin.admin) %}
-            {{ field.label }}
-            {{ field }}
-            <span>
-              {% if field.errors %}
-                {% for error in field.errors %}
-                  { error }}
-                {% endfor %}
-              {% endif %}
-            </span>
-          {% endif %}
-        </p>
-      {% endfor %}
-      <button type="submit" class="btn btn-primary">Save</button>
-    </form>
-    <br>
-    <form action="{{url_for('users.show', id=user.id)}}?_method=DELETE" method="POST">
-    {{ form.csrf_token }}
-      <button type="submit" class="btn btn-danger">Delete</button>
-    </form>
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-4">
+        <form action="{{url_for('users.show', id=user.id)}}?_method=PATCH" method="POST">
+        {{ form.csrf_token }}
+            {% for field in form if field.widget.input_type != 'hidden' %}
+              <p>
+                {% if field.name != 'admin' or (field.name == 'admin' and admin.admin) %}
+                  {{ field.label }}
+                  {{ field(class="form-control") }}
+                  <span>
+                    {% if field.errors %}
+                      {% for error in field.errors %}
+                        { error }}
+                      {% endfor %}
+                    {% endif %}
+                  </span>
+                {% endif %}
+              </p>
+            {% endfor %}
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+        <br>
+        <form action="{{url_for('users.show', id=user.id)}}?_method=DELETE" method="POST">
+        {{ form.csrf_token }}
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
   </div>
 {% endblock %}

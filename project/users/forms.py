@@ -15,6 +15,12 @@ class UpdateUserForm(FlaskForm):
     last_name = StringField('Last Name', [validators.Length(min=1)])
     admin = BooleanField('Admin?')
 
+class UpdatePasswordForm(FlaskForm):
+    password = PasswordField('Current Password', [validators.Length(min=3)])
+    new_password = PasswordField('New Password', [validators.InputRequired(), validators.EqualTo('confirm', 
+                                                                message='Passwords must match')])
+    confirm = PasswordField('Repeat Password')
+
 class LoginForm(FlaskForm):
     username = StringField('User Name', [validators.Length(min=3)])
     password = PasswordField('Password', [validators.Length(min=3)])

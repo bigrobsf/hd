@@ -1,6 +1,6 @@
 from flask import redirect, request, render_template, Blueprint, url_for, flash
 from project.models import User
-from project.users.forms import NewUserForm, UpdateUserForm, LoginForm, DeleteForm
+from project.users.forms import NewUserForm, UpdateUserForm, LoginForm, DeleteForm, UpdatePasswordForm
 from sqlalchemy.exc import IntegrityError
 from project import db, bcrypt
 from project.decorators import prevent_login_signup, ensure_correct_user, ensure_correct_or_admin_user
@@ -62,6 +62,39 @@ def login():
             flash('Invalid login. Please try again.')
             return redirect(url_for('users.login'))
     return render_template('users/login.html', form=form)
+
+
+@users_blueprint.route('/<int:id>/edit_password')
+@login_required
+@ensure_correct_user
+def edit_password(id):
+    found_user = User.query.get_or_404(id)
+    form = UpdatePasswordForm(obj=found_user)
+    return render_template('users/password.html', form=form, user=found_user)
+
+
+@users_blueprint.route('/<int:id>/password', methods=['PATCH'])
+@login_required
+@ensure_correct_user
+def password(id):
+    found_user = User.query.get_or_404(id)
+    form = UpdatePasswordForm(request.form)
+    if form.validate():
+        authenticated_user = User.authenticate(found_user.username, form.password.data)
+        if authenticated_user:
+            found_user.username = found_user.username
+            found_user.password = bcrypt.generate_password_hash(form.new_password.data).decode('UTF-8')
+            found_user.first_name = found_user.first_name
+            found_user.last_name = found_user.last_name
+            found_user.admin = found_user.admin
+            db.session.add(found_user)
+            db.session.commit()
+            flash('Password changed.')
+            return redirect(url_for('users.index'))
+        else:
+            flash('Invalid password. Please try again.')
+    return render_template('users/password.html', form=form, user=found_user)
+
 
 
 @users_blueprint.route('/<int:id>/edit')
