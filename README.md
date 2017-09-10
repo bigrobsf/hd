@@ -53,9 +53,9 @@ python app.py
 
 ## Future enhancements:
 
-Fix / make a better UI.
+Fix / make a better UI - add navbar with Home, Logout, Chart selection...
 
-Allow the user to export everything to a csv file for download.
+Allow the user to export workout data to a csv file for download.
 
 Display a chart for each exercise so that the user can see progress by exercise by workout over a user-specified period of time.
 
