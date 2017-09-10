@@ -18,6 +18,7 @@ workouts_blueprint = Blueprint(
 
 @workouts_blueprint.route('/', methods=['GET', 'POST'])
 @login_required
+@ensure_correct_user
 def index(user_id):
     if request.method == 'POST':
         form = WorkoutForm(request.form)

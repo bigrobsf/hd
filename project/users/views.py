@@ -116,7 +116,6 @@ def show(id):
         form = UpdateUserForm(request.form)
         if form.validate():
             found_user.username = request.form.get('username')
-            # found_user.password = bcrypt.generate_password_hash(form.password.data).decode('UTF-8')
             found_user.first_name = request.form.get('first_name')
             found_user.last_name = request.form.get('last_name')
             admin_user = User.query.get(current_user.id)
@@ -139,7 +138,11 @@ def show(id):
             return redirect(url_for('users.login'))
         return render_template('users/edit.html', form=form, user=found_user)
 
-    return render_template('users/show.html', user=found_user, admin=admin_user)
+    if found_user.id == current_user.id:
+        return render_template('users/show.html', user=found_user, admin=admin_user)
+    else:
+        flash('Not Authorized')
+        return render_template('users/index.html', users=User.query.order_by(User.username).all())
 
 
 @users_blueprint.route('/logout')

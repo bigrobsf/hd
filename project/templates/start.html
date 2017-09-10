@@ -2,17 +2,22 @@
 {% block head %}
 {% endblock %}
 {% block content %}
-  <div class="jumbotron">
-    <div class="container">
-      <h1 id="start-logo">LIFT</h1>
-      <div class="blurb">
-        <p>Track your High Intensity Workout.</p>
-        <p>See your progress in charts.</p>
+  <div class="text-center">
+    <h1 id="start-logo">LIFT</h1>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-4">
+        <div class="start text-center">
+          <h3>Track your High Intensity Workout</h3>
+        </div>
+        <p>
+          <a class="btn btn-primary btn-lg btn-block" href="{{url_for('users.signup')}}" role="button">Create Account</a>
+        </p>
+        <p>
+          <a class="btn btn-success btn-lg btn-block" href="{{url_for('users.login')}}" role="button">Sign In</a>
+        </p>
       </div>
-      <p>
-        <a class="btn btn-primary btn-lg" href="{{url_for('users.signup')}}" role="button">Create Account</a>
-        <a class="btn btn-success btn-lg" href="{{url_for('users.login')}}" role="button">Sign In</a>
-      </p>
     </div>
   </div>
 {% endblock %}

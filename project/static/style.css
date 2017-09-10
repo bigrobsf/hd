@@ -32,13 +32,18 @@ svg {
   font-size: 5vh;
 }
 
+#start-logo {
+  font-size: 64px;
+  margin-top: 6vh;
+}
+
 .header-logo, #start-logo {
   color: brown;
 }
 
-.blurb p {
+.start {
   color: steelblue;
-  font-weight: 400;
+  margin-bottom: 6vh;
 }
 
 .blurb {
