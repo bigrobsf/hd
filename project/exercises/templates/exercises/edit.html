@@ -13,7 +13,7 @@
           {% for field in form if field.widget.input_type != 'hidden' %}
             <p>
             {{ field.label }}
-            {{ field }}
+            {{ field(class="form-control") }}
               <span>
                 {% if field.errors %}
                   {% for error in field.errors %}
@@ -23,13 +23,9 @@
               </span>
             </p>
           {% endfor %}
-          <p> {{ form.tags }}</p>
-          <button type="submit" class="btn btn-primary">Update</button>
-        </form>
-        <br>
-        <form action="{{url_for('exercises.show', ex_id=exercise.id)}}?_method=DELETE" method="POST">
-        {{ form.csrf_token }}
-          <button type="submit" class="btn btn-danger">Delete</button>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
         </form>
       </div>
     </div>

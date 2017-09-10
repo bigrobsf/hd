@@ -16,6 +16,10 @@ input {
     margin-right: 5px;
 }
 
+button.wo-save {
+  margin-bottom: 3vh;
+}
+
 .header-logo {
   height: 10vh;
   line-height: 10vh;
@@ -48,6 +52,10 @@ input {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.table tbody > tr > td.vert-aligned {
+    vertical-align: middle;
 }
 
 .tooltip {

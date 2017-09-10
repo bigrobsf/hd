@@ -54,8 +54,9 @@ def index(user_id):
     else:
         user = User.query.get(user_id)
         workouts = user.workouts.order_by(desc(Workout.date)).all()
+        form = DeleteForm(request.form)
 
-        return render_template('workouts/index.html', user=user, workouts=workouts)
+        return render_template('workouts/index.html', form=form, user=user, workouts=workouts)
 
 
 @workouts_blueprint.route('/<int:wo_id>/edit')

@@ -2,14 +2,32 @@
 
 {% block content %}
   <h3 class="text-center">Exercise Listing</h3>
-  <p class="text-center"><a href="{{url_for('users.index')}}">Home</a></p>
+  <p class="text-center"><a href="{{url_for('users.index')}}">Home</a> | <a href="{{url_for('exercises.new')}}">Add new exercise</a></p>
 
   <div class="container">
-    {% for exercise in exercises %}
-      <p>
-        <strong><a href="{{url_for('exercises.show', ex_id=exercise.id)}}">{{exercise.name}}</a></strong> | <a href="{{url_for('exercises.edit', ex_id=exercise.id)}}">Edit this exercise</a>
-      </p>
-    {% endfor %}
-    <p><a href="{{url_for('exercises.new')}}">Add new exercise</a></p>
+    <table class="table table-striped table-responsive">
+      <tbody>
+      {% for exercise in exercises %}
+        <tr>
+          <td>
+            <p>
+              <strong>
+                <a href="{{url_for('exercises.show', ex_id=exercise.id)}}">{{exercise.name}}</a>
+              </strong>
+            </p>
+          </td>
+          <td class="vert-aligned text-center">
+            <a class="btn btn-primary" href="{{url_for('exercises.edit', ex_id=exercise.id)}}">Edit</a>
+          </td>
+          <td class="vert-aligned text-center">
+            <form action="{{url_for('exercises.show', ex_id=exercise.id)}}?_method=DELETE" method="POST">
+            {{ form.csrf_token }}
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
   </div>
 {% endblock %}

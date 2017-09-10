@@ -26,7 +26,8 @@ def index():
         else:
             return render_template('exercises/new.html', form=form)
     
-    return render_template('exercises/index.html', exercises=Exercise.query.order_by(Exercise.id).all())
+    form = DeleteForm(request.form)
+    return render_template('exercises/index.html', form=form, exercises=Exercise.query.order_by(Exercise.id).all())
 
 
 @exercises_blueprint.route('/<int:ex_id>/edit')
