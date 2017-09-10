@@ -1,18 +1,27 @@
 {% extends 'base.html' %}
-
 {% block content %}
+  <p class="text-center"><a href="{{url_for('exercises.index')}}">Exercises</a> | 
+  <a href="{{url_for('users.logout')}}">Log Out</a></p>
   <h3 class="text-center">Admin Page - User Listing</h3>
-  <p class="text-center"><a href="{{url_for('users.logout')}}">Log Out</a></p>
 
   <div class="container">
-    {% for user in users %}
-    <p>
-      <strong>{{user.first_name}} {{user.last_name}}</strong>
-      <p></p>
-      <a href="{{url_for('users.show', id=user.id)}}">See more about {{user.first_name}}</a> |
-      <a href="{{url_for('workouts.index', user_id=user.id)}}">See {{user.first_name}}'s workouts</a> |
-      <a href="{{url_for('users.edit', id=user.id)}}">Edit user</a>
-    </p>
-    {% endfor %}
+
+    <table class="table table-striped table-responsive">
+      <tbody>
+      {% for user in users %}
+        <tr>
+          <td>
+            <p><strong><a href="{{url_for('users.show', id=user.id)}}">{{user.first_name}} {{user.last_name}}</a></strong></p>
+          </td>
+          <td class="vert-aligned text-center">
+            <a class="btn btn-info" href="{{url_for('workouts.index', user_id=user.id)}}">View Workouts</a>
+          </td>
+          <td class="vert-aligned text-center">
+            <a class="btn btn-primary" href="{{url_for('users.edit', id=user.id)}}">Edit</a>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
   </div>
 {% endblock %}

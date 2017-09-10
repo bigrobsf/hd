@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
+  <p class="text-center">
+    <a href="{{url_for('users.show', id=workout.user_id)}}">Home</a> | 
+    <a href="{{url_for('workouts.index', user_id=workout.user_id)}}">List Workouts</a>
+  </p>
   <h3 class="text-center">Update Workout for {{workout.date.strftime("%a, %d %b %Y")}}</h3>
-  <p class="text-center"><a href="{{url_for('users.show', id=workout.user_id)}}">Home</a> | <a href="{{url_for('workouts.index', user_id=workout.user_id)}}">List Workouts</a></p>
   <div class="container">
     <form action="{{url_for('workouts.show', user_id=workout.user_id, wo_id=workout.id)}}?_method=PATCH" method="POST">
       {{ form.csrf_token }}

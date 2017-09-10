@@ -1,22 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h3 class="text-center">{{ user.username }}</h3>
-  <p class="text-center"><a href="{{url_for('users.logout')}}">Logout</a></p>
+  <p class="text-center">
+    <span class="userlist hidden"><a href="{{url_for('users.index')}}">List All Users</a> |
+    </span>
+    <a href="{{url_for('users.edit', id=user.id)}}">Edit Account</a> | 
+    <a href="{{url_for('users.edit_password', id=user.id)}}">Change Password</a> |
+    <a href="{{url_for('users.logout')}}">Logout</a>
+  </p>
+  <h3 class="text-center">Hello {{ user.username }}</h3>
   <div class="container">
-    <h4>{{ user.first_name }} {{ user.last_name }}</h4>
-    <p>
-      <a href="{{url_for('workouts.new', user_id=user.id)}}">Start Workout</a> |
-      <a href="{{url_for('workouts.index', user_id=user.id)}}">List Workouts</a>
-      <!-- | <a href="../../reports/export/{{user.id}}">Export to File</a> -->
-    </p>
-    <p>
-      <a href="{{url_for('users.edit', id=user.id)}}">Edit Account</a> |
-      <a href="{{url_for('users.edit_password', id=user.id)}}">Change Password</a> 
-      <span class="userlist hidden">
-      | <a href="{{url_for('users.index')}}">List All Users</a>
-      </span>
-    </p>
-    <button type="button" id="chart" class="btn btn-primary">Chart</button>
+    <div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+      <p>
+        <a class="btn btn-success btn-block btn-lg" href="{{url_for('workouts.new', user_id=user.id)}}">New Workout</a>
+      </p>
+      <p>
+        <a class="btn btn-info btn-block btn-lg" href="{{url_for('workouts.index', user_id=user.id)}}">List Workouts</a>
+      </p>
+        <button type="button" id="chart" class="btn btn-primary btn-block btn-lg">Create Chart</button>    
+      </p>
+      </div>
+      </div>
+    </div>
+
     <h5 class="hidden">{{admin.admin}}</h5>
     <p class="hidden">{{user.id}}</p>
     <div class="row">

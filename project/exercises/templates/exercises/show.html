@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
-
 {% block content %}
-  <h3 class="text-center">Selected Exercise</h3>
     <p class="text-center">
       <a href="{{url_for('users.index')}}">Home</a> |
       <a href="{{url_for('exercises.index')}}">Exercises</a>
     </p>
+  <h3 class="text-center">Selected Exercise</h3>
   <div class="container">
     <p><a href="{{url_for('exercises.new')}}">Add a new exercise</a></p>
     <p>

@@ -39,7 +39,6 @@ def signup():
             try:
                 db.session.commit()
                 login_user(new_user)
-                flash('User created!')
                 return redirect(url_for('users.index'))
             except IntegrityError as err:
                 flash('Username already exists.')
@@ -56,7 +55,6 @@ def login():
         authenticated_user = User.authenticate(form.username.data, form.password.data)
         if authenticated_user:
             login_user(authenticated_user)
-            flash('Login successful.')
             return redirect(url_for('users.index'))
         else:
             flash('Invalid login. Please try again.')
